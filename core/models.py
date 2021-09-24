@@ -10,9 +10,9 @@ class CTE(models.Model):
 
 # Create your models here.
 class CTE_product(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=1024, null=True)
     cte_product_id = models.BigIntegerField()
-    value = models.CharField(max_length=255)
+    value = models.CharField(max_length=1024, null=True)
     cte = models.ForeignKey(CTE, on_delete=models.DO_NOTHING)
 
 
