@@ -9,3 +9,4 @@ sqlparse==0.4.2
 openpyxl
 psycopg2-binary
 python-dotenv
+djangorestframework

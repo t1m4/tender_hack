@@ -1,58 +1,61 @@
+import json
 import os
 import time
 
-from pandas import read_excel
+from openpyxl import load_workbook
+from pandas import read_excel, read_csv
+
+from core.models import CTE
+
+
 def read(filename):
     start_time = time.time()
-    result = read_excel(filename)
+    # result = read_excel(filename, engine='xlrd')
+    result = read_excel(filename, engine='xlrd')
+    # result = read_csv(filename)
     t = 0
+    print(result)
     for row in result.iterrows():
-        print(row[1].values)
-        # print("fir/st", i)
+        row_values = row[1].values
+        print(row_values)
         # t += 1
         # time.sleep(1)
     print("End time",t,  time.time() - start_time)
     return
 
-class CSVReader():
-    MAX_PAGE_SIZE = 10
 
-    def _file_read(self, filename):
-        exist = os.path.exists(filename)
-        if not exist:
-            raise ValueError('File does not exist')
 
-        with open(filename, 'rb') as f:
-            result = f.readlines()
-            for line in result:
-                print(line.decode('cp1252'))
-                yield line
-                return
+def read_cte(filename):
+    start_time = time.time()
+    wb2 = load_workbook(filename)
+    ws = wb2.active
 
-        # index = 0
-        # print(file)
-        # for line in file:
-        #     print(line)
-        #     yield index, line
-        #     index += 1
+    rows = ws.rows
+    next(rows)
+    k = 1
+    objects = []
+    for row in rows:
+        if k % 10000 == 0:
+            print(k)
+        try:
+            row_result = [i.value for i in row]
+            objects.append(CTE(cte_id=row_result[0], name=row_result[1], category=row_result[2], code_kphz=row_result[3]))
+            if row_result[-1]:
+                row_result[-1] = json.loads(row_result[-1])
+        except:
+            row_result = [i.value for i in row]
 
-    def read_file(self, filename: str, max_page_size: int, start_from_line: int = 1):
-        """
-        Read curtain line from file
-        """
-        result_lines = []
-        for index, line in self.__file_read(filename):
-            if index < start_from_line:
-                continue
-            elif index >= start_from_line + max_page_size:
-                break
-            else:
-                line = line.strip().split(';')
-                result_lines.append(line)
-        return result_lines
+            print('something wrong with {}'.format(row), row_result)
+        k += 1
+    print(len(objects))
+
+    print('2', time.time() - start_time)
+
+
 
 if __name__ == '__main__':
-    print(read("test.xlsx"))
-    # csv_reader = CSVReader()
-    # for i in csv_reader._file_read("test.xlsx"):
-    #     print(i)
+    # print(read("Contract.xlsx"))
+    # print(read_xsxl("Contract.xlsx"))
+    # print(read_cte("CTE.xlsx"))
+    print(read_cte("cte_test.xlsx"))
+    # print(read_xsxl("cte_hard_test.xlsx"))
