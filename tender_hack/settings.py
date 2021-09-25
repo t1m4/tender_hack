@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import socket
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -40,6 +41,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'core',
 ]
+INSTALLED_APPS += [
+    'debug_toolbar',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,7 +53,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+INTERNAL_IPS += [ip[:-1] + '1' for ip in ips]
+
 
 ROOT_URLCONF = 'tender_hack.urls'
 
