@@ -74,11 +74,11 @@ WSGI_APPLICATION = 'tender_hack.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-POSTGRES_DB = os.environ.get('POSTGRES_DB')
-POSTGRES_USER = os.environ.get('POSTGRES_USER')
-POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default='')
-POSTGRES_HOST = os.environ.get('POSTGRES_HOST')
-POSTGRES_PORT = os.environ.get('POSTGRES_PORT', default=5432)
+POSTGRES_DB = os.environ.get('POSTGRES_DB', 'ruslan')
+POSTGRES_USER = os.environ.get('POSTGRES_USER', 'ruslan')
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'ruslan')
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'postgres')
+POSTGRES_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
 DATABASES = {
     'default': {
@@ -90,7 +90,7 @@ DATABASES = {
         'PORT': POSTGRES_PORT
     },
 }
-
+print(POSTGRES_PORT)
 #
 # DATABASES = {
 #     'default': {
