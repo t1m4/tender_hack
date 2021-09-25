@@ -3,7 +3,6 @@ from django.db import models
 # ['Номер контракта', 'Дата публикации КС на ПП', 'Дата заключения контракта', 'Цена контракта', 'ИНН заказчика',
 # 'КПП заказчика', 'Наименование заказчика', 'ИНН поставщика', 'КПП поставщика', 'Наименование поставщика', 'СТЕ']
 class Contract(models.Model):
-    number = models.CharField(max_length=255, null=True)
     public_date = models.DateTimeField(null=True)
     close_date = models.DateTimeField(null=True)
     price = models.FloatField(null=True)
@@ -27,6 +26,9 @@ class CTE(models.Model):
     code_kphz = models.CharField(max_length=2048, null=True)
     contract_cte = models.ForeignKey(ContractCTE, on_delete=models.SET_NULL, null=True, blank=True)
 
+# class category(models.Model):
+#     name = models.CharField(max_length=255)
+#     id = models.IntegerField()
 
 # Create your models here.
 class CTE_product(models.Model):
