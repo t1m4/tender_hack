@@ -7,17 +7,23 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.models import CTE
-from services.data.read import save_cte
+from services.data.read import save_cte, save_cte_product, save_contract, save_contract_cte
 from django.conf import settings
 
 from services.data.json_service import write_json, read_json
 
 
-class CreateView(APIView):
+class CreateContract(APIView):
+    def get(self,request):
+        filename = settings.BASE_DIR / 'services/data/contract_test.xlsx'
+        # filename = settings.BASE_DIR / 'services/data/Contract.xlsx'
+        save_contract(filename)
+        return Response('ok')
+
+class CreateCTE(APIView):
     def get(self,request):
         filename = settings.BASE_DIR / 'services/data/CTE.xlsx'
-        # filename = settings.BASE_DIR / 'services/data/cte_test.xlsx'
-        # read_cte(filename)
+        save_cte(filename)
         return Response('ok')
 
 class GetCategory(APIView):
