@@ -16,24 +16,10 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
+      - "8080:8080"
+    command: python manage.py runserver 0.0.0.0:8080
     depends_on:
       - postgres
 
-#  celery:
-#    build:
-#      context: .
-#      dockerfile: ./compose/local/Dockerfile
-#    command: /start-celeryworker
-#    volumes:
-#      - .:/app
-#    links:
-#      - redis
-#    depends_on:
-#      - app
-#      - redis
-
 volumes:
   postgre-data: { }
-#  app: { }
